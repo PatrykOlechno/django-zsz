@@ -3,8 +3,7 @@ from staff.models import Member, Position, Cadence
 
 class PositionInLine(admin.TabularInline):
     model = Position
-    extra = 2
-
+    extra = 1
 
 class CadenceInLine(admin.TabularInline):
     model = Cadence
@@ -14,9 +13,6 @@ class MemberAdmin(admin.ModelAdmin):
     model = Member
     list_display = ( 'name',)
 
-    inlines = [
-        PositionInLine,
-        CadenceInLine,
-    ]
-
 admin.site.register(Member, MemberAdmin)
+admin.site.register(Cadence)
+admin.site.register(Position)

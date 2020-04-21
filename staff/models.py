@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 class Member(models.Model):
     class Degree(models.TextChoices):
@@ -18,24 +19,24 @@ class Member(models.Model):
         blank = True
     )
     name = models.CharField(max_length = 100)
+    cadence = models.ManyToManyField('Cadence')
+    position = models.ManyToManyField('Position')
 
     def __str__(self):
         return self.name
 
 class Cadence(models.Model):
-    member = models.ForeignKey(Member, on_delete = models.CASCADE)
-    start = models.IntegerField()
-    end = models.IntegerField()
+    year = datetime.datetime.now().year
+    start = models.IntegerField(default = year - 1)
+    end = models.IntegerField(default = year)
 
     def timestamp(self):
-        return '{}/{}'.format(start, end)
+        return '{}/{}'.format(self.start, self.end)
 
     def __str__(self):
-        timestamp = '{}-{}'.format(start, end)
-        return self.timestamp
+        return self.timestamp()
 
 class Position(models.Model):
-    member = models.ForeignKey(Member, on_delete = models.CASCADE)
     position = models.CharField(max_length = 100)
 
     def __str__(self):
