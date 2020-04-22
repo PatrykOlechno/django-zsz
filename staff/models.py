@@ -22,13 +22,26 @@ class Member(models.Model):
     cadence = models.ManyToManyField('Cadence')
     position = models.ManyToManyField('Position')
 
+    def get_cadences(self):
+        return '\n | \n'.join([str(c) for c in self.cadence.all()])
+
+    def get_positions(self):
+        return '\n | \n'.join([str(p) for p in self.position.all()])
+
     def __str__(self):
         return self.name
+
+    get_cadences.short_description = 'Cadences'
+    get_positions.short_description = 'Positions'
+
 
 class Cadence(models.Model):
     year = datetime.datetime.now().year
     start = models.IntegerField(default = year - 1)
     end = models.IntegerField(default = year)
+
+    class Meta:
+        ordering = ['-end']
 
     def timestamp(self):
         return '{}/{}'.format(self.start, self.end)

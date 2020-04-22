@@ -11,7 +11,9 @@ class CadenceInLine(admin.TabularInline):
 
 class MemberAdmin(admin.ModelAdmin):
     model = Member
-    list_display = ( 'name',)
+    list_display = ( 'name', 'get_cadences', 'get_positions')
+    list_filter = ['cadence', 'degree']
+    search_field = ['name']
 
 admin.site.register(Member, MemberAdmin)
 admin.site.register(Cadence)
